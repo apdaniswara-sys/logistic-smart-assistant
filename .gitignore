@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv_smartlog
+.vscode/
+.DS_Store
+Thumbs.db
+*.pdb
+*.log
+*.egg-info/
+dist/
+build/
+*.mp3
+*.wav
+model/vosk-model-small-id/
+data/
+*.csv
