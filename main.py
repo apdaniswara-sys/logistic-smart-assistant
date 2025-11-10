@@ -1,7 +1,4 @@
-from tkinter import Tk
-from src.gui import LogisticAssistantGUI
+from src.gui import run_gui
 
 if __name__ == "__main__":
-    root = Tk()
-    app = LogisticAssistantGUI(root)
-    root.mainloop()
+    run_gui()
