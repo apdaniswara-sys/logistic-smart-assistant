@@ -1,66 +1,88 @@
+import tkinter as tk
+from tkinter import scrolledtext
 import asyncio
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QLineEdit, QLabel
-from PySide6.QtCore import Qt
-from assistant import answer_query_contextual
-from nlp_voice import listen_and_recognize, speak
+from src.nlp_voice import listen_and_recognize, speak
+from src.nlp_logic import process_query
 
-class LogisticAssistantGUI(QWidget):
+
+
+
+class LogisticAssistantGUI:
     def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Logistic Smart Assistant")
-        self.setGeometry(300, 100, 600, 500)
-        self.init_ui()
+        self.window = tk.Tk()
+        self.window.title("Smart Logistic Assistant")
+        self.window.geometry("600x500")
+        self.window.configure(bg="#1E1E1E")  # latar belakang gelap modern
 
-    def init_ui(self):
-        layout = QVBoxLayout()
+        # Judul
+        self.title_label = tk.Label(
+            self.window,
+            text="🧠 Smart Logistic Assistant",
+            font=("Segoe UI", 16, "bold"),
+            bg="#1E1E1E",
+            fg="#00BFFF"
+        )
+        self.title_label.pack(pady=10)
 
-        self.label = QLabel("Ketik Part No atau tekan 'Voice Command'")
-        self.label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(self.label)
+        # Area percakapan
+        self.chat_area = scrolledtext.ScrolledText(
+            self.window,
+            wrap=tk.WORD,
+            state="disabled",
+            width=70,
+            height=20,
+            bg="#2D2D2D",
+            fg="#FFFFFF",
+            font=("Consolas", 10)
+        )
+        self.chat_area.pack(padx=10, pady=10)
 
-        self.input_line = QLineEdit()
-        self.input_line.setPlaceholderText("Masukkan Part No...")
-        layout.addWidget(self.input_line)
+        # Tombol voice
+        self.voice_button = tk.Button(
+            self.window,
+            text="🎤 Bicara",
+            font=("Segoe UI", 12, "bold"),
+            bg="#00BFFF",
+            fg="white",
+            relief="flat",
+            command=self.handle_voice_command
+        )
+        self.voice_button.pack(pady=10)
 
-        btn_layout = QHBoxLayout()
-        self.btn_query = QPushButton("Cari")
-        self.btn_voice = QPushButton("Voice Command")
-        btn_layout.addWidget(self.btn_query)
-        btn_layout.addWidget(self.btn_voice)
-        layout.addLayout(btn_layout)
+        # Sapaan awal dari bot
+        self.display_message("🤖 Bot", "Selamat datang di Smart Logistic Assistant, apakah ada yang bisa saya bantu?")
+        asyncio.run(speak("Selamat datang di Smart Logistic Assistant, apakah ada yang bisa saya bantu?"))
 
-        self.text_area = QTextEdit()
-        self.text_area.setReadOnly(True)
-        layout.addWidget(self.text_area)
+        self.window.mainloop()
 
-        self.setLayout(layout)
+    # 🗨️ Tampilkan pesan di area chat
+    def display_message(self, sender, message):
+        self.chat_area.configure(state="normal")
+        self.chat_area.insert(tk.END, f"{sender}: {message}\n")
+        self.chat_area.configure(state="disabled")
+        self.chat_area.yview(tk.END)
 
-        self.btn_query.clicked.connect(self.handle_query)
-        self.btn_voice.clicked.connect(self.handle_voice_command)
+    # 🎤 Tangani perintah suara
+    def handle_voice_command(self):
+        self.display_message("🧍 Anda", "Silakan bicara...")
+        try:
+            text = listen_and_recognize()
+            if not text:
+                self.display_message("🤖 Bot", "Maaf, saya tidak mendengar dengan jelas.")
+                return
 
-        self.setStyleSheet("""
-        QWidget {background-color: #f0f0f5; font-family: Arial; font-size: 14px;}
-        QPushButton {background-color: #0078d7; color: white; border-radius: 5px; padding: 8px;}
-        QPushButton:hover {background-color: #005a9e;}
-        QLineEdit {padding: 5px; border-radius: 5px; border: 1px solid gray;}
-        QTextEdit {background-color: #ffffff; border-radius: 5px;}
-        """)
+            self.display_message("🧍 Anda", text)
+            response = process_query(text)
+            self.display_message("🤖 Bot", response)
 
-    def handle_query(self):
-        user_text = self.input_line.text()
-        if user_text:
-            response = answer_query_contextual(user_text)
-            self.text_area.append(f"> {user_text}\n{response}\n")
+            # Suara jawaban
             asyncio.run(speak(response))
 
-    def handle_voice_command(self):
-        self.text_area.append("> Mendengarkan voice command...")
-        user_text = listen_and_recognize()
-        self.text_area.append(f"Anda: {user_text}")
-        if user_text.lower() == "keluar":
-            asyncio.run(speak("Terima kasih, sampai jumpa."))
-            self.close()
-            return
-        response = answer_query_contextual(user_text)
-        self.text_area.append(f"{response}\n")
-        asyncio.run(speak(response))
+        except Exception as e:
+            self.display_message("⚠️ Error", str(e))
+
+
+if __name__ == "__main__":
+    gui = LogisticAssistantGUI()
+    gui.mainloop()
+

@@ -1,6 +1,6 @@
 import re
-from utils import load_master_parts, get_part_info
-from stock_api import get_stock_available
+from src.utils import load_master_parts, get_part_info
+from src.stock_api import get_stock_available
 
 # Load master parts saat modul diimport
 master_df = load_master_parts()

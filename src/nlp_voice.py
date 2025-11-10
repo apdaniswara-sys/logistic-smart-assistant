@@ -1,54 +1,51 @@
+import os
 import asyncio
-import queue
-import json
-import sounddevice as sd
-from vosk import Model, KaldiRecognizer
-from edge_tts import Communicate
-import playsound
+import speech_recognition as sr
+import edge_tts
+from playsound import playsound
+import time
 
-# Queue untuk audio input
-q = queue.Queue()
-
-# Load Vosk model Bahasa Indonesia
-# Pastikan model sudah di-download di folder "model/vosk-model-small-id"
-model = Model("model/vosk-model-small-id")
-rec = KaldiRecognizer(model, 16000)
-
-def callback(indata, frames, time, status):
-    """
-    Callback untuk audio stream Vosk
-    """
-    q.put(bytes(indata))
-
+# 🎤 Dengarkan suara user dan ubah ke teks (pakai Google Speech API)
 def listen_and_recognize():
-    """
-    Mendengarkan voice command dan mengembalikan teks user.
-    """
-    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1, callback=callback):
-        print("Silakan berbicara...")
-        while True:
-            data = q.get()
-            if rec.AcceptWaveform(data):
-                result = json.loads(rec.Result())
-                user_text = result.get("text", "")
-                if user_text:
-                    return user_text
+    recognizer = sr.Recognizer()
+    mic = sr.Microphone()
 
+    print("🧍 Anda: Silakan bicara...")
+    with mic as source:
+        recognizer.adjust_for_ambient_noise(source, duration=0.8)
+        audio = recognizer.listen(source, timeout=8, phrase_time_limit=6)
+
+    try:
+        text = recognizer.recognize_google(audio, language="id-ID")
+        print(f"🧍 Anda berkata: {text}")
+        return text
+    except sr.UnknownValueError:
+        print("🤖 Bot: Maaf, saya tidak dapat mendengar dengan jelas.")
+        return None
+    except sr.RequestError:
+        print("🤖 Bot: Gagal menghubungi layanan pengenalan suara. Coba lagi sebentar...")
+        time.sleep(3)
+        return None
+    except Exception as e:
+        print(f"🤖 Bot: Terjadi error saat mendengarkan: {e}")
+        return None
+
+
+# 🔊 Bacakan teks secara natural dengan Edge TTS (Microsoft online)
 async def speak(text):
-    """
-    Text to Speech menggunakan Edge TTS.
-    File audio disimpan sebagai reply.mp3 dan diputar dengan playsound.
-    """
-    communicate = Communicate(text, voice="id-ID-ArdiNeural")
-    await communicate.save("reply.mp3")
-    playsound.playsound("reply.mp3")
+    try:
+        filename = "reply.mp3"
+        communicate = edge_tts.Communicate(text, voice="id-ID-ArdiNeural")
 
-# Contoh penggunaan (test mandiri)
-if __name__ == "__main__":
-    # Tes text to speech
-    asyncio.run(speak("Halo, saya siap membantu Anda!"))
+        # Simpan hasil ke file
+        await communicate.save(filename)
 
-    # Tes speech to text
-    print("Mulai uji voice command...")
-    user_input = listen_and_recognize()
-    print(f"Anda berkata: {user_input}")
+        if os.path.exists(filename):
+            playsound(filename)
+            os.remove(filename)
+        else:
+            print("🤖 Bot: File suara tidak ditemukan.")
+    except Exception as e:
+        print(f"⚠️ Gagal memutar suara: {e}")
+        # fallback: print teks jika suara gagal
+        print(f"🤖 {text}")
