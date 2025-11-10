@@ -1,28 +1,10 @@
 import os
-import threading
-import asyncio
 import tkinter as tk
 from tkinter import scrolledtext
-from playsound import playsound
-import edge_tts
 from src.nlp_logic import process_query
+from src.tts_manager import TTSManager
 
-async def speak_async(text):
-    try:
-        filename = "reply.mp3"
-        tts = edge_tts.Communicate(text, voice="id-ID-ArdiNeural")
-        async for chunk in tts.stream():
-            if chunk["type"] == "audio":
-                with open(filename, "ab") as f:
-                    f.write(chunk["data"])
-        if os.path.exists(filename):
-            playsound(filename)
-            os.remove(filename)
-    except Exception as e:
-        print(f"[❌] Gagal memutar suara: {e}")
-
-def speak(text):
-    threading.Thread(target=lambda: asyncio.run(speak_async(text)), daemon=True).start()
+tts = TTSManager()
 
 class LogisticAssistantGUI:
     def __init__(self, root):
@@ -48,7 +30,10 @@ class LogisticAssistantGUI:
         send_btn.pack(side=tk.RIGHT)
 
         self.display_message("", "Selamat datang di Smart Logistic Assistant, apakah ada yang bisa saya bantu?")
-        speak("Selamat datang di Smart Logistic Assistant, apakah ada yang bisa saya bantu?")
+        tts.speak("Selamat datang di Smart Logistic Assistant, apakah ada yang bisa saya bantu?")
+
+        # Hentikan TTS saat window ditutup
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
     def display_message(self, sender, message):
         self.chat_box.config(state='normal')
@@ -60,19 +45,25 @@ class LogisticAssistantGUI:
         user_input = self.entry.get().strip()
         if not user_input:
             return
-        self.display_message("🧍 Anda: ", user_input)
+        self.display_message("🧍 Anda:", user_input)
         self.entry.delete(0, tk.END)
         try:
             response = process_query(user_input)
         except Exception as e:
             response = f"⚠️ Error: {e}"
-        self.display_message("🤖 Bot: ", response)
-        speak(response)
+        self.display_message("🤖 Bot:", response)
+        tts.speak(response)
+
+    def on_close(self):
+        tts.stop()
+        self.root.destroy()
+
 
 def run_gui():
     root = tk.Tk()
     app = LogisticAssistantGUI(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     run_gui()
