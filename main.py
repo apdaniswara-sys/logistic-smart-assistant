@@ -1,5 +1,4 @@
-from src.gui import ChatApp
+from src.gui import run_gui
 
 if __name__ == "__main__":
-    app = ChatApp()
-    app.mainloop()
+    run_gui()

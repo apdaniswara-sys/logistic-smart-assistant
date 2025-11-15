@@ -126,7 +126,7 @@ def process_query(user_input: str):
         return f"Supplier code Kanban {code} adalah {supplier_code}."
     if any(k in user_input_lower for k in ["supplier", "supplier name", "nama supplier", "suppliernya"]):
         return f"Supplier Kanban {code} adalah {supplier}."
-    if any(k in user_input_lower for k in ["plant"]):
+    if any(k in user_input_lower for k in ["plant", "plan"]):
         msg = f"Plant code Kanban {code} adalah {plant_code}" if plant_code else ""
         if dock_code:
             msg += f" dengan dock {dock_code}"
@@ -135,13 +135,13 @@ def process_query(user_input: str):
         return f"Dock Kanban {code} berada di {dock_code}." if dock_code else f"Informasi dock tidak tersedia untuk Kanban {code}."
     if any(k in user_input_lower for k in ["address", "alamat"]):
         return f"Alamat Kanban {code} berada di {address}." if address else f"Informasi alamat tidak tersedia untuk Kanban {code}."
-    if any(k in user_input_lower for k in ["part no", "partnumber", "nomor part"]):
+    if any(k in user_input_lower for k in ["part no", "part no.", "partnumber", "nomor part"]):
         return f"Nomor part Kanban {code} adalah {part_no}." if part_no else f"Informasi part no tidak tersedia untuk Kanban {code}."
     if any(k in user_input_lower for k in ["nama part", "partname", "part name"]):
         return f"Kanban {code} adalah part {part_name}." if part_name else f"Informasi nama part tidak tersedia untuk Kanban {code}."
-    if any(k in user_input_lower for k in ["pcs per kanban", "qty perkanban", "jumlah per kanban", "isi kanban"]):
+    if any(k in user_input_lower for k in ["pcs per kanban", "pcs perkanban", "qty perkanban", "qty per kanban", "jumlah per kanban", "isi kanban"]):
         return f"Jumlah per Kanban {code} adalah {pcs_per_kanban} pcs." if pcs_per_kanban else f"Informasi pcs per kanban tidak tersedia untuk Kanban {code}."
-    if any(k in user_input_lower for k in ["last received", "tanggal terima", "tanggal terakhir"]):
+    if any(k in user_input_lower for k in ["last received", "tanggal kirim", "tanggal datang", "tanggal terima", "tanggal terakhir", "terakhir"]):
         return f"Part Kanban {code} terakhir diterima pada {last_received}." if last_received else f"Informasi tanggal last received tidak tersedia untuk Kanban {code}."
 
     # Default fallback
