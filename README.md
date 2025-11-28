@@ -217,7 +217,7 @@ Integrasi all system logistic :
 - Safety & Ide web log.
 - Import Part System
 - HR-Portal
-Upgrade to Deep NLP (ML), agar bot lebih cerdas dan luas jangkauannya
+Upgrade NLP ke model ML (spaCy/sklearn)
 ---
 
 # 👤 **Author**
