@@ -95,29 +95,35 @@ Mapping status sesuai Toyota Logistics:
 - Late → Sudah datang tapi lewat jadwal  
 - Delay → Belum datang tapi lewat jadwal  
 - Waiting → Belum waktunya datang  
-
 ---
 
 ### 🔹 3. **Stock Kanban Monitoring**
 Menggunakan endpoint JSON internal:
 http://10.64.6.27/legion/all_data_dock43.php
 
+- Stock overall  
+  - SPS stock  
+  - Receiving stock  
+  - Stock menit & jam  
+  - Supplier  
+  - Part No  
+  - Plant/Dock  
+  - Alamat  
+  - Last received  
 
 Fallback CSV:
 data/master_parts.csv
 
-
 ---
-
 ### 🔹 5. **CustomTkinter GUI Premium**
 - Bubble chat animasi
 - Voice assistant (TTS/WSS internal)
 - Real-time data display
 - Smooth message rendering
-
 ---
 
 # 📁 **Struktur Folder**
+'''plaintext
 logistic-smart-assistant/
 │
 ├── assets/
@@ -146,12 +152,10 @@ logistic-smart-assistant/
 ├── README.md                   # dokumentasi proyek
 ├── requirements.txt            # list dependencies Python
 └── .gitignore                  # file ignore untuk Git
-
-
+```
 ---
 
 # 🔧 **Installation & Setup**
-
 ### 1️⃣ Clone repository
 ```bash
 git clone https://github.com/yourname/logistic-smart-assistant.git
