@@ -26,12 +26,6 @@ try:
 except Exception:
     SR_AVAILABLE = False
 
-# optional whisper (keberadaan tidak dipakai untuk Google hold-to-talk)
-try:
-    import whisper  # noqa: F401
-    WHISPER_AVAILABLE = True
-except Exception:
-    WHISPER_AVAILABLE = False
 
 # assets folder
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")

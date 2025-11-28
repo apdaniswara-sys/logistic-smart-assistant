@@ -22,9 +22,8 @@ from src.dcl_monitoring_json import (
     find_route_row,
 )
 
-# ============================================================
+
 # CONFIGURATION
-# ============================================================
 API_URL = "http://10.64.6.27/legion/all_data_dock43.php"  # STOCK only
 CSV_FALLBACK = "data/master_parts.csv"
 DATA_CACHE_TTL = 30
@@ -37,9 +36,8 @@ conversation_context: Dict[str, Optional[str]] = {
 }
 
 
-# ============================================================
+
 # HELPERS
-# ============================================================
 def _now_ts() -> float:
     return time.time()
 
@@ -61,9 +59,7 @@ def safe_get(mapping: Dict[str, Any], *possible_keys: str) -> Optional[Any]:
     return None
 
 
-# ============================================================
 # FIXED — ROUTE DETECTOR (SAFE VERSION)
-# ============================================================
 def extract_route(text: str) -> Optional[str]:
     if not text:
         return None
@@ -105,9 +101,7 @@ def extract_route(text: str) -> Optional[str]:
 
     return None
 
-# ============================================================
 # KANBAN DETECTOR — 4 DIGIT & DIAWALI ANGKA
-# ============================================================
 def extract_kanban(text: str) -> Optional[str]:
     tokens = re.split(r"[\s,;:]+", text)
     for t in tokens:
@@ -116,9 +110,8 @@ def extract_kanban(text: str) -> Optional[str]:
             return tok
     return None
 
-# ============================================================
+
 # FIND PART
-# ============================================================
 def find_part(df: pd.DataFrame, code: str) -> Optional[Dict[str, Any]]:
     if df is None or df.empty:
         return None
@@ -133,9 +126,8 @@ def find_part(df: pd.DataFrame, code: str) -> Optional[Dict[str, Any]]:
     except Exception:
         return None
     
-# =====================================================
+
 #  TOP CRITICAL STOCK BERDASARKAN STOCKOVERALL (MINUS)
-# =====================================================
 def get_top_critical_stock_overall(df, n=5):
     if df is None or df.empty:
         return []
@@ -154,17 +146,13 @@ def get_top_critical_stock_overall(df, n=5):
     if df2.empty:
         return []
 
-    # Urutkan dari yang minus terbesar (contoh -200, -150, -80)
+    # Urutkan dari yang minus terbesar
     df2 = df2.sort_values("stockoverall").head(n)
 
     return df2.to_dict(orient="records")
 
 
-
-
-# ============================================================
 # LOAD STOCK DATA
-# ============================================================
 def load_data(force_refresh: bool = False) -> pd.DataFrame:
     global _data_cache
 
@@ -196,9 +184,8 @@ def load_data(force_refresh: bool = False) -> pd.DataFrame:
     except Exception:
         return pd.DataFrame()
 
-# ============================================================
+
 # MAIN NLP PROCESSOR
-# ============================================================
 def process_query(user_input: str) -> str:
     if not user_input or not user_input.strip():
         return "Silakan masukkan pertanyaan."
@@ -212,9 +199,9 @@ def process_query(user_input: str) -> str:
     # Detect route
     route = extract_route(txt)
 
-    # ===================================================
+    
     # 1) FOLLOW-UP: “rute apa saja?” (mengacu ke last_status_query)
-    # ===================================================
+    
     if route is None and ("route" in txt or txt in "rute"):
         last_status = conversation_context.get("last_status_query")
         if last_status:
@@ -225,9 +212,9 @@ def process_query(user_input: str) -> str:
         else:
             return "Status apa yang ingin ditampilkan? (advanced, late, arrived, delay, waiting)"
 
-    # ===================================================
-    # 2) ROUTE DETAIL (contoh: “kapan kedatangan route RC16-02”)
-    # ===================================================
+    
+    # 2) ROUTE DETAIL
+   
     if route:
         row = find_route_row(dcl_rows, route)
         if row:
@@ -239,10 +226,8 @@ def process_query(user_input: str) -> str:
             )
         return f"Saya tidak menemukan informasi route {route}."
 
-    # ===================================================
-    # 3) DCL INTENTS (lebih natural + handle 0 result)
-    # ===================================================
-
+    
+    # 3) DCL INTENTS (lebih natural + handle 0 result)   
     def natural_count_response(label: str, count_value: int) -> str:
         """
         Membuat respon natural.
@@ -320,9 +305,8 @@ def process_query(user_input: str) -> str:
             return f"Dock {dock} memiliki {count_by_dock(dcl_rows, dock)} delivery hari ini."
         
         
-    # =====================================================
-    # TOP 5 CRITICAL STOCK (BERDASARKAN STOCKOVERALL MINUS)
-    # =====================================================
+  
+    # TOP 5 CRITICAL STOCK (BERDASARKAN STOCKOVERALL MINUS)  
     if any(x in txt for x in [
         "top 5", "top five", "top5",
         "critical", "kritis", "stok minus",
@@ -345,11 +329,9 @@ def process_query(user_input: str) -> str:
         return msg
 
 
-    # =======================================================
-    # 4) STOCK (KANBAN)
-    # =======================================================
 
-    df = load_data()
+    # 4) STOCK (KANBAN)
+        df = load_data()
     last_kanban = conversation_context.get("last_kanban")
     code = extract_kanban(txt) or last_kanban
 

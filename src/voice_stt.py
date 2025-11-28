@@ -1,6 +1,4 @@
 # src/voice_stt.py
-# Voice to Text menggunakan SpeechRecognition + Google Web Speech API
-
 import speech_recognition as sr
 
 

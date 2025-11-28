@@ -9,9 +9,7 @@ DCL_CACHE_TTL = 30  # seconds
 _dcl_cache = {"rows": None, "ts": 0}
 
 
-# =====================================================
 # LOAD DCL JSON (with caching)
-# =====================================================
 def load_dcl_json():
     global _dcl_cache
     now = time.time()
@@ -33,9 +31,7 @@ def load_dcl_json():
         return None
 
 
-# =====================================================
 # STATUS MAPPING (FINAL)
-# =====================================================
 def normalize_status(st):
     if not st:
         return ""
@@ -56,9 +52,7 @@ def normalize_status(st):
     return st
 
 
-# =====================================================
 # COUNTERS
-# =====================================================
 def count_arrived(rows):
     return sum(1 for r in rows if normalize_status(r[8]) == "arrived")
 
@@ -86,17 +80,11 @@ def count_not_arrived(rows):
 def count_on_time(rows):
     return count_arrived(rows)
 
-
-# =====================================================
 # DOCK COUNTER
-# =====================================================
 def count_by_dock(rows, dock):
     return sum(1 for r in rows if str(r[0]).strip() == str(dock).strip())
 
-
-# =====================================================
 # LIST ROUTES BY STATUS
-# =====================================================
 def get_routes_by_status(rows, status):
     status = normalize_status(status)
     result = []
@@ -109,9 +97,8 @@ def get_routes_by_status(rows, status):
     return result
 
 
-# =====================================================
 # FIND SINGLE ROUTE ROW (for detail query)
-# =====================================================
+
 def find_route_row(rows, route_name):
     route_name = route_name.strip().lower()
 
@@ -122,9 +109,7 @@ def find_route_row(rows, route_name):
     return None
 
 
-# =====================================================
 # SUMMARY (OTIF)
-# =====================================================
 def summarize_dcl(rows):
     total = len(rows)
     advanced = count_advanced(rows)
