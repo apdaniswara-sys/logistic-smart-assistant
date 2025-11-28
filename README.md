@@ -1,4 +1,4 @@
-# Logistic Smart Assistant (NPL - Real-Time Stock & Delivery Monitoring)
+# Logistic Smart Assistant (NLP - Real Time Stock & Delivery Monitoring)
 
 Logistic Smart Assistant adalah aplikasi berbasis Python yang mengintegrasikan:
 - **Natural Language Processing (NLP)**
