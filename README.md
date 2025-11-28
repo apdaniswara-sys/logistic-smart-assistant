@@ -125,7 +125,6 @@ data/master_parts.csv
 Below is an example visualization of the logistic smart assistant gui :
 
 ![Demo Preview](assets/delivery.png)
-
 ---
 # 📁 **Struktur Folder**
 ```plaintext
