@@ -335,7 +335,7 @@ def process_query(user_input: str) -> str:
         if not critical:
             return "Tidak ada stok minus saat ini."
 
-        msg = "Top 5 stock paling critical (berdasarkan stock overall paling minus):\n"
+        msg = "Top 5 stock paling critical (berdasarkan stock overall paling minus di legion system):\n"
         for i, row in enumerate(critical, start=1):
             msg += (
                 f"{i}. {row.get('kanbanno','?')} | "
