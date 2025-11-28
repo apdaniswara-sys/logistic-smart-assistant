@@ -123,7 +123,7 @@ data/master_parts.csv
 ---
 
 # 📁 **Struktur Folder**
-'''plaintext
+```plaintext
 logistic-smart-assistant/
 │
 ├── assets/
