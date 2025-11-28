@@ -187,7 +187,6 @@ python main2.py
 ---
 
 # 🤖 **Contoh Pertanyaan yang Bisa Dijawab Assistant**
-
 ```plaintext
 Delivery / DCL
 “Berapa delivery yang telat?”
@@ -217,7 +216,7 @@ Integrasi all system logistic :
 - Safety & Ide web log.
 - Import Part System
 - HR-Portal
-Upgrade NLP ke model ML (spaCy/sklearn)
+Upgrade NLP ke model ML (spaCy/sklearn) agar intent (data set) bisa dibuat lebih banyak tanpa masuk ke script
 ---
 
 # 👤 **Author**
