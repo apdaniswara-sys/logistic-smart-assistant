@@ -34,7 +34,7 @@ Aplikasi ini dibangun khusus untuk kebutuhan area **Logistik Toyota**, di mana s
    > “Berapa stok kanban 937F?”  
    > “Berikan top 5 stock paling kritis.”
 
-4. **Mudah digunakan Pimpinan**  
+4. **Mudah digunakan user**  
    Dengan GUI yang modern dan voice assistant, pimpinan/operator cukup mengetik/berbicara (bisa menggunakan headset agar lebih flexible) untuk mendapatkan kondisi seputar logistic **secara real-time**.
 
 ---
