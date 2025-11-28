@@ -121,7 +121,12 @@ data/master_parts.csv
 - Real-time data display
 - Smooth message rendering
 ---
+### 🔹 5. **Demo Preview**
+Below is an example visualization of the logistic smart assistant gui :
 
+![Demo Preview](assets/delivery.jpg)
+
+---
 # 📁 **Struktur Folder**
 ```plaintext
 logistic-smart-assistant/
@@ -161,7 +166,6 @@ logistic-smart-assistant/
 git clone https://github.com/yourname/logistic-smart-assistant.git
 cd logistic-smart-assistant
 ```
----
 ### 2️⃣ Buat virtual environment
 ```bash
 python -m venv venv_smartlog
@@ -206,18 +210,18 @@ Contextual memory
 
 # 💡 **Roadmap Pengembangan**
 ```plaintext
-Integrasi SAP stock movement
-Alarm delivery kanban
-Voice assistant BI/EN
-Dashboard trend history
-Integration dengan ERP vendor performance
+Integrasi all system logistic :
+- Legion
+- e-Kanban
+- Safety & Ide web log.
+- Import Part System
 ```
 ---
 
 # 👤 **Author**
 ```plaintext
 Muis
-Toyota Logistics Expertise Booth camp 2025
+Toyota Logistics Expertise Booth Camp 2025
 Expert in NLP, Automation, Power BI, 3D Blender, Logistic System Integration
 ```
 ---
