@@ -1,14 +1,12 @@
-# Logistic Smart Assistant (NPL & Real-Time Stock & Delivery Monitoring)
+# Logistic Smart Assistant (NPL - Real-Time Stock & Delivery Monitoring)
 
 Logistic Smart Assistant adalah aplikasi berbasis Python yang mengintegrasikan:
 - **Natural Language Processing (NLP)**
 - **Real-Time Delivery Monitoring (DCL Monitoring)**
-- **Stock Monitoring Kanban Toyota**
-- **FastAPI Proxy Service untuk Cloudflare Tunnel**
+- **Real-Time Stock Monitoring (Legion)**
 - **CustomTkinter GUI**
-- **Integrasi data internal Toyota (DCL & Stock)**
 
-Aplikasi ini dibangun khusus untuk kebutuhan area **Logistik Toyota**, di mana sangat banyak sistem terpisah (stock monitoring, DCL, SAP, report harian, planning, freight, dll). Dengan hadirnya aplikasi ini, **pimpinan cukup bertanya dengan bahasa natural** untuk mendapatkan informasi real-time tanpa membuka banyak aplikasi.
+Aplikasi ini dibangun khusus untuk kebutuhan area **Logistik Toyota**, di mana sangat banyak sistem terpisah (stock monitoring, DCL, SAP, report harian, planning, vanning/devaninng container, dll). Dengan hadirnya aplikasi ini, **pimpinan cukup bertanya dengan bahasa natural** untuk mendapatkan informasi real-time tanpa membuka banyak aplikasi.
 
 ---
 
@@ -33,11 +31,11 @@ Aplikasi ini dibangun khusus untuk kebutuhan area **Logistik Toyota**, di mana s
    Logistic Smart Assistant menggabungkan **semua informasi menjadi satu pintu**, cukup bertanya:
    > “Berapa delivery yang telat?”  
    > “Route apa saja yang advanced?”  
-   > “Berapa stok kanban 5011?”  
+   > “Berapa stok kanban 937F?”  
    > “Berikan top 5 stock paling kritis.”
 
 4. **Mudah digunakan Pimpinan**  
-   Dengan GUI yang modern dan voice assistant, pimpinan cukup mengetik/berbicara untuk mendapatkan kondisi area kerja **secara real-time**.
+   Dengan GUI yang modern dan voice assistant, pimpinan/operator cukup mengetik/berbicara (bisa menggunakan headset agar lebih flexible) untuk mendapatkan kondisi seputar logistic **secara real-time**.
 
 ---
 
@@ -218,6 +216,7 @@ Integrasi all system logistic :
 - e-Kanban
 - Safety & Ide web log.
 - Import Part System
+- HR-Portal
 ```
 ---
 
