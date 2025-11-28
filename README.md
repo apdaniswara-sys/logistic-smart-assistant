@@ -113,7 +113,7 @@ Fallback CSV:
 data/master_parts.csv
 
 ---
-### 🔹 5. **CustomTkinter GUI Premium**
+### 🔹 5. **CustomTkinter GUI**
 - Bubble chat animasi
 - Voice assistant (TTS/WSS internal)
 - Real-time data display
