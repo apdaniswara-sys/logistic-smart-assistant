@@ -124,7 +124,7 @@ data/master_parts.csv
 ### 🔹 6. **Demo Preview**
 Below is an example visualization of the logistic smart assistant gui :
 
-![Demo Preview](assets/delivery.png)
+![Demo Preview](assets/delivery1.png)
 
 ---
 
