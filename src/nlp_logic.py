@@ -132,6 +132,35 @@ def find_part(df: pd.DataFrame, code: str) -> Optional[Dict[str, Any]]:
         return res.iloc[0].to_dict()
     except Exception:
         return None
+    
+# =====================================================
+#  TOP CRITICAL STOCK BERDASARKAN STOCKOVERALL (MINUS)
+# =====================================================
+def get_top_critical_stock_overall(df, n=5):
+    if df is None or df.empty:
+        return []
+
+    if "stockoverall" not in df.columns:
+        return []
+
+    # Convert to numeric
+    s = pd.to_numeric(df["stockoverall"], errors="coerce")
+
+    # Filter stok minus saja
+    df2 = df.copy()
+    df2["stockoverall"] = s
+    df2 = df2[df2["stockoverall"] < 0]
+
+    if df2.empty:
+        return []
+
+    # Urutkan dari yang minus terbesar (contoh -200, -150, -80)
+    df2 = df2.sort_values("stockoverall").head(n)
+
+    return df2.to_dict(orient="records")
+
+
+
 
 # ============================================================
 # LOAD STOCK DATA
@@ -289,6 +318,32 @@ def process_query(user_input: str) -> str:
         if m:
             dock = m.group(1)
             return f"Dock {dock} memiliki {count_by_dock(dcl_rows, dock)} delivery hari ini."
+        
+        
+    # =====================================================
+    # TOP 5 CRITICAL STOCK (BERDASARKAN STOCKOVERALL MINUS)
+    # =====================================================
+    if any(x in txt for x in [
+        "top 5", "top five", "top5",
+        "critical", "kritis", "stok minus",
+        "paling critical", "paling kritis",
+        "stock critical", "critical stock"
+    ]):
+        df = load_data()
+        critical = get_top_critical_stock_overall(df, n=5)
+
+        if not critical:
+            return "Tidak ada stok minus saat ini."
+
+        msg = "Top 5 stock paling critical (berdasarkan stock overall paling minus):\n"
+        for i, row in enumerate(critical, start=1):
+            msg += (
+                f"{i}. {row.get('kanbanno','?')} | "
+                f"{row.get('partname','?')} | "
+                f"{row.get('stockoverall','?')} pcs\n"
+            )
+        return msg
+
 
     # =======================================================
     # 4) STOCK (KANBAN)

@@ -1,4 +1,4 @@
-# src/gui_premium.py
+# src/gui.py
 import os
 import threading
 import time
@@ -124,10 +124,10 @@ class PremiumChatGUI(ctk.CTk):
 
         diagnostic_cmds = [
             ("Kondisi safety", "Bagaimana kondisi safety hari ini"),
-            ("Kondisi stock", "material apa saja yang shortage hari ini"),
-            ("Delivery Performance", "Bagaimana performa delivery hari ini"),
-            ("Critical stock", "Berikan top 10 material dengan stock paling kritikal"),
             ("Absensi hari ini", "Bagaimana rekap absensi karyawan hari ini"),
+            ("Kondisi stock", "material apa saja yang shortage hari ini"),            
+            ("top 5 Critical stock", "Berikan top 5 stock paling kritikal"),
+            ("Delivery Performance", "Bagaimana performance delivery hari ini"),            
             ("jadwal meeting", "event meeting apa saja yang dijadwalkan hari ini"),
         ]
         for title, cmd in diagnostic_cmds:
