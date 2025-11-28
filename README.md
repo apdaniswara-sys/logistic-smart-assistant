@@ -121,10 +121,10 @@ data/master_parts.csv
 - Real-time data display
 - Smooth message rendering
 ---
-### 🔹 5. **Demo Preview**
+### 🔹 6. **Demo Preview**
 Below is an example visualization of the logistic smart assistant gui :
 
-![Demo Preview](assets/delivery.jpg)
+![Demo Preview](assets/delivery.png)
 
 ---
 # 📁 **Struktur Folder**
