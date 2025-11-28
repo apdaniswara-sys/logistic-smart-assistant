@@ -182,10 +182,9 @@ pip install -r requirements.txt
 # 🚀 **Menjalankan Aplikasi**
 ### ▶ Jalankan GUI
 ```bash
-python main2.py
+python main.py
 ```
 ---
-
 # 🤖 **Contoh Pertanyaan yang Bisa Dijawab Assistant**
 ```plaintext
 Delivery / DCL
